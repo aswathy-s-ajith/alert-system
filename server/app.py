@@ -5,10 +5,13 @@ from dotenv import load_dotenv
 import os
 from supabase import create_client, Client
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 
 load_dotenv()  # Load environment variables from .env file
 
 app = Flask(__name__)
+CORS(app, origins=['http://localhost:3002'])
+
 
 # Supabase configuration
 SUPABASE_URL = os.environ['SUPABASE_URL']

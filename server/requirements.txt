@@ -6,3 +6,4 @@ flask-sqlalchemy
 psycopg2
 cv2  ##?
 tensorflow.keras.models ##?
+flask-cors
