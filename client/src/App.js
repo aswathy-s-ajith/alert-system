@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import Login from './login';
+import Landingpage from './landingpage.js';
 import { requestForToken } from "./config/firebase";
 
 
@@ -24,7 +24,7 @@ function App() {
 
   return (
   
-    <Login></Login>
+    <Landingpage></Landingpage>
   );
 }
 
