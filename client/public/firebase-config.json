@@ -1,0 +1,11 @@
+{
+  "firebaseConfig": {
+    "apiKey": "AIzaSyB6Reu0MDOgWbjp8FJcAQyvahqoY14M3z8",
+    "authDomain": "pushnotifs-14721.firebaseapp.com",
+    "projectId": "pushnotifs-14721",
+    "storageBucket": "pushnotifs-14721.appspot.com",
+    "messagingSenderId": "1051477628171",
+    "appId": "1:1051477628171:web:3640fe01df84a3a73b7e0e",
+    "measurementId": "G-KN4HSDR3V7"
+  }
+}
