@@ -4,6 +4,10 @@ supabase
 python-dotenv
 flask-sqlalchemy
 psycopg2
+
+flask-cors
+gunicorn
+
+
 cv2  ##?
 tensorflow.keras.models ##?
-flask-cors
