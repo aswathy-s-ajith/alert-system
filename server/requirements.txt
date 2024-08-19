@@ -2,3 +2,7 @@ flask
 firebase-admin 
 supabase
 python-dotenv
+flask-sqlalchemy
+psycopg2
+cv2  ##?
+tensorflow.keras.models ##?

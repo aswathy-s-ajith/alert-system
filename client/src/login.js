@@ -1,19 +1,43 @@
-import  { useState } from "react";
-import Landingpage from "./landingpage"; 
+import { useState, useEffect } from "react";
+import Landingpage from "./landingpage";
 import './login.css';
 
-const Login = () => {
+const Login = ({ getToken }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [location, setLocation] = useState("");
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    // Get the FCM token
+    getToken().then(token => setToken(token));
+  }, [getToken]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // You can add form validation or processing here
 
-    // Set isLoggedIn to true to show the landing page
-    setIsLoggedIn(true);
+    // Send a POST request to store the user's information
+    fetch('/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name,
+        email,
+        location,
+        token,
+      }),
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.message === 'User created successfully') {
+        setIsLoggedIn(true);
+      } else {
+        console.error(data.message);
+      }
+    })
+    .catch(error => console.error(error));
   };
 
   if (isLoggedIn) {
