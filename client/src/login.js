@@ -18,7 +18,7 @@ const Login = ({ getToken }) => {
     // You can add form validation or processing here
   
     // Send a POST request to store the user's information
-    const loginResponse = await fetch('http://localhost:5000/store_user', {
+    const loginResponse = await fetch('/store_user', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -31,7 +31,7 @@ const Login = ({ getToken }) => {
     });
   
     if (loginResponse.ok) {
-      await fetch('http://localhost:5000/store_token', { 
+      await fetch('/store_token', { 
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
