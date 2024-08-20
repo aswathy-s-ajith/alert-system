@@ -14,7 +14,11 @@ const Login = ({ getToken }) => {
     getToken().then(token => setToken(token));
   }, [getToken]);
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    getToken().then(token => setToken(token));
+  }, [getToken]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // You can add form validation or processing here
 
@@ -42,9 +46,7 @@ const Login = ({ getToken }) => {
 
   if (isLoggedIn) {
     // Render the landing page after login
-    return (
-      <Landingpage></Landingpage>
-    );
+    return <Landingpage />;
   }
 
   return (

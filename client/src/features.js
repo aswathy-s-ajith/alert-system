@@ -13,7 +13,7 @@ function Features() {
       <div className="feature-card">
         <i className="fas fa-bell feature-icon"></i>
         <h3>Instant Alerts</h3>
-        <p>Immediate notifications sent via SMS to keep you informed.</p>
+        <p>Instant Web Push Notifications for Subscribers .</p>
       </div>
       <div className="feature-card">
         <i className="fas fa-chart-line feature-icon"></i>

@@ -8,6 +8,6 @@ psycopg2
 flask-cors
 gunicorn
 
-
-cv2  ##?
-tensorflow.keras.models ##?
+tensorflow
+numpy
+opencv-python

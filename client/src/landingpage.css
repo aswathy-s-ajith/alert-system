@@ -39,6 +39,10 @@
   border: 2px solid white;
   color: white;
 }
+.cta-button
+{
+  background-color: #ff6347;
+}
 
 /* Video Section */
 .video-section 
@@ -114,7 +118,7 @@
   color: #ff6347;
 }
 
-/* Contact Section */
+/* Contact section*/
 .contact-section 
 {
   padding: 4rem 2rem;
