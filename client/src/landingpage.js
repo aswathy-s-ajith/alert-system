@@ -1,17 +1,18 @@
+// landingpage.js
 import React from 'react';
 import './landingpage.css';
-import Hero from './hero.js';
-import Video from './video.js';
-import Features from './features.js';
-import Contact from './contact.js';
+import Hero from './hero';
+import Video from './video';
+import Features from './features';
+import Contact from './contact';
 
 function Landingpage() {
   return (
     <div className="landing-container">
-      <Hero></Hero>
-      <Video></Video>
-      <Features></Features> 
-      <Contact></Contact>
+      <Hero />
+      <Video />
+      <Features />
+      <Contact />
     </div>
   );
 }
