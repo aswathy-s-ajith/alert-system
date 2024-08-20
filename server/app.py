@@ -86,23 +86,27 @@ def store_token():
         token = data['token']
 
         # Fetch the user ID from the Supabase table
-        user = supabase_client.table('fcm_users').select('id').eq('email', user_email).execute()
+        user = supabase_client.table('fcm_users').select('id', 'token').eq('email', user_email).execute()
         
         if not user.data:
             return jsonify({'error': 'User not found'}), 404
         
         user_id = user.data[0]['id']
+        existing_token = user.data[0].get('token')
+
+        if existing_token and existing_token.get('fcm_token') == token:
+            return jsonify({'message': 'Token stored successfully', 'token': token})
 
         # Update the user token in the Supabase table
         supabase_client.table('fcm_users').update({
             'token': {'fcm_token': token}
         }).eq('id', user_id).execute()
 
-        return jsonify({'message': 'Token stored successfully'})
+        return jsonify({'message': 'Token stored successfully', 'token': token})
     except Exception as e:
         app.logger.error(f"Error in store_token: {str(e)}")
         return jsonify({'error': str(e)}), 500
-
+    
 #send fcm code
 
 cred = credentials.Certificate(os.environ['GOOGLE_APPLICATION_CREDENTIALS'])
@@ -123,8 +127,8 @@ def send_web_push_notification():
         # Create a notification message
         message = messaging.MulticastMessage(
             notification=messaging.Notification(
-                title='Web Push Notification from Flask',
-                body='This is a web push notification'
+                title='Car Accident Alert!',
+                body='Be careful! There has been a car accident near your locality. Click to know more at https://localhost:5000/incidents/latest'
             ),
             tokens=tokens
         )
@@ -139,7 +143,11 @@ def send_web_push_notification():
         return jsonify({
             'message': 'Web push notification sent successfully',
             'success_count': response.success_count,
-            'failure_count': response.failure_count
+            'failure_count': response.failure_count,
+            'notification': {
+                'title': 'Car Accident Alert!',
+                'body': 'Be careful! There has been a car accident near your locality.'
+            }
         })
 
     except Exception as e:
@@ -176,17 +184,27 @@ def get_all_incidents():
 
 @app.route('/incidents/latest', methods=['GET'])
 def get_latest_incident():
+    
     try:
         latest_incident = supabase_client.table('incidents').select('*').order('time_of_incident', desc=True).limit(1).execute()
         if latest_incident.data:
-            return jsonify(latest_incident.data[0])
+            incident_data = latest_incident.data[0]
+            incident_type = incident_data['incident_type']
+            time_of_incident = incident_data['time_of_incident']
+            image_url = incident_data.get('image_url')
+
+            response = {
+                'message': f'Car Accident Alert!',
+                'details': f'A car accident occurred at {time_of_incident}. Please be cautious while driving.',
+                'image_url': image_url,
+                'incident_type': incident_type
+            }
+            return jsonify(response)
         else:
             return jsonify({'message': 'No incidents found'}), 404
     except Exception as e:
         app.logger.error(f"Error in get_latest_incident: {str(e)}")
         return jsonify({'error': str(e)}), 500
-
-
 
 ## MODEL
 

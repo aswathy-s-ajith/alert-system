@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import Landingpage from "./landingpage";
 import './login.css';
 
@@ -9,8 +8,6 @@ const Login = ({ getToken }) => {
   const [email, setEmail] = useState("");
   const [location, setLocation] = useState("");
   const [token, setToken] = useState("");
-  const [error, setError] = useState(null);
-  const history = useHistory();
 
   useEffect(() => {
     getToken().then(token => setToken(token));
@@ -18,48 +15,40 @@ const Login = ({ getToken }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Basic validation
-    if (!name || !email || !location) {
-      setError("Please fill out all fields");
-      return;
-    }
-
-    try {
-      const loginResponse = await fetch('/store_user', {
+    // You can add form validation or processing here
+  
+    // Send a POST request to store the user's information
+    const loginResponse = await fetch('/store_user', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name,
+        email,
+        location,
+      }),
+    }).catch(error => {
+      console.error('Login failed:', error);
+    });
+  
+    if (loginResponse.ok) {
+      await fetch('/store_token', { 
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name,
-          email,
-          location,
+          email, 
+          token, 
         }),
+      }).catch(error => {
+        console.error('Token storage failed:', error);
       });
-
-      if (loginResponse.ok) {
-        const tokenResponse = await fetch('/store_token', { 
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email, 
-            token, 
-          }),
-        });
-
-        if (tokenResponse.ok) {
-          setIsLoggedIn(true);
-          history.push("/landing"); // Redirect to landing page
-        } else {
-          setError("Token storage failed");
-        }
-      } else {
-        setError("Login failed");
-      }
-    } catch (error) {
-      setError("Login failed");
+      setIsLoggedIn(true);
+    } else {
+      console.error('Login failed:', loginResponse.statusText);
     }
   };
 
   if (isLoggedIn) {
+    // Render the landing page after login
     return <Landingpage />;
   }
 
@@ -89,7 +78,6 @@ const Login = ({ getToken }) => {
           required
         />
         <button type="submit">Submit</button>
-        {error && <p style={{ color: "red" }}>{error}</p>}
       </form>
     </div>
   );
