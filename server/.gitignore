@@ -1,3 +1,5 @@
 venv/
 docs/
 routes/
+.env
+build/
