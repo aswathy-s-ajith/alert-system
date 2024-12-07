@@ -3,3 +3,5 @@ docs/
 routes/
 .env
 build/
+
+securevariables/
